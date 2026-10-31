@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>List Manager</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://cdn-icons-png.flaticon.com/512/8161/8161879.png"
+    />
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 15px;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(150deg, #22c55e, #f59e0b);
+        background-size: 300% 300%;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        animation: gradient 5s ease infinite;
+      }
+
+      @keyframes gradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .container {
+        background-image: linear-gradient(150deg, grey, orange, #22c55e, grey);
+        border: 1px solid #334155;
+        padding: 25px;
+        border-radius: 12px;
+        width: 100%;
+        max-width: 600px;
+        min-height: 300px;
+        max-height: 90vh;
+        height: 600px;
+        overflow-y: auto;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      }
+
+      h1 {
+        text-align: center;
+        margin-top: 0;
+        margin-bottom: 20px;
+        color: #1e293b;
+      }
+
+      .input-section {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+
+      input {
+        flex: 1;
+        padding: 10px 12px;
+        border-radius: 6px;
+        border: 1px solid #334155;
+        outline: none;
+        font-size: 15px;
+        color: #1e293b;
+      }
+
+      input:focus {
+        border-color: #15803d;
+        box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+      }
+
+      button {
+        padding: 8px 14px;
+        border-radius: 6px;
+        background: #22c55e;
+        border: 1px solid #334155;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      button:hover {
+        opacity: 0.9;
+      }
+
+      #addButton:hover {
+        background: #fff;
+        color: green;
+      }
+
+      #total {
+        margin-top: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #0f172a;
+      }
+
+      #list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        background-image: linear-gradient(150deg, #22c55e, orange);
+        border: 1px solid #334155;
+        margin: 8px 0;
+        padding: 10px 12px;
+        border-radius: 6px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        color: #0f172a;
+        font-weight: 500;
+      }
+
+      .item-text {
+        flex: 1;
+        word-break: break-word;
+      }
+
+      li.completed-item .item-text {
+        text-decoration: line-through;
+        opacity: 0.65;
+      }
+
+      li div {
+        display: flex;
+        gap: 6px;
+        flex-shrink: 0;
+      }
+
+      li div .edit {
+        background: #f59e0b;
+        border: 1px solid #334155;
+        padding: 5px 10px;
+        font-size: 12px;
+        color: black;
+      }
+
+      li div .delete {
+        border: 1px solid #334155;
+        background: #ef4444;
+        padding: 5px 10px;
+        font-size: 12px;
+        color: white;
+      }
+
+      li div .complete {
+        border: 1px solid #334155;
+        background: #22c55e;
+        padding: 5px 10px;
+        font-size: 12px;
+        color: white;
+      }
+
+      li div .complete.completed {
+        text-decoration: line-through;
+        opacity: 0.75;
+        background-color: white;
+        color: #dc2626;
+      }
+
+      li div .edit:hover {
+        opacity: 0.9;
+        background: black;
+        color: #f59e0b;
+      }
+
+      li div .delete:hover {
+        opacity: 0.9;
+        background: white;
+        color: red;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 900px) {
+        .container {
+          padding: 20px;
+        }
+        h1 {
+          font-size: 1.5rem;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .container {
+          padding: 16px;
+          border-radius: 10px;
+        }
+        .input-section {
+          flex-direction: column;
+          gap: 8px;
+        }
+        input {
+          width: 100%;
+          padding: 10px;
+          font-size: 16px;
+        }
+        #addButton {
+          width: 100%;
+          padding: 10px 12px;
+          font-size: 16px;
+        }
+        #total {
+          font-size: 15px;
+        }
+        li {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 10px;
+          font-size: 15px;
+        }
+        li div {
+          width: 100%;
+          justify-content: flex-end;
+          gap: 8px;
+        }
+        li div button {
+          width: auto;
+          flex: 1;
+        }
+      }
+
+      @media (max-width: 420px) {
+        body {
+          padding: 8px;
+        }
+        .container {
+          min-height: 220px;
+        }
+        h1 {
+          font-size: 1.25rem;
+        }
+      }
+
+      /* Ensure nice layout on very large screens */
+      @media (min-width: 1200px) {
+        .container {
+          width: 600px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>List Manager</h1>
+
+      <div class="input-section">
+        <input type="text" id="itemInput" placeholder="Enter item..." />
+        <button id="addButton">Add</button>
+      </div>
+
+      <p id="total">Total Items: 0</p>
+      <ul id="list"></ul>
+    </div>
+
+    <script>
+      const addButton = document.getElementById("addButton");
+      const itemAppender = document.getElementById("list");
+      const input = document.getElementById("itemInput");
+      const totalItems = document.getElementById("total");
+      let itemCounter = 0;
+
+      function addItem() {
+        const trimmedValue = input.value.trim();
+
+        if (trimmedValue === "") {
+          alert("Please Enter An Item Name First.");
+          return;
+        }
+
+        const newItem = document.createElement("li");
+
+        // Dedicated span for item text to avoid DOM collision with buttons
+        const textSpan = document.createElement("span");
+        textSpan.classList.add("item-text");
+        textSpan.textContent = trimmedValue;
+        newItem.append(textSpan);
+
+        const divInsideLi = document.createElement("div");
+        newItem.append(divInsideLi);
+
+        // Edit button
+        const editButton = document.createElement("button");
+        editButton.classList.add("edit");
+        editButton.textContent = "Edit";
+        divInsideLi.append(editButton);
+
+        // Delete button
+        const deleteButton = document.createElement("button");
+        deleteButton.classList.add("delete");
+        deleteButton.textContent = "Delete";
+        divInsideLi.append(deleteButton);
+
+        // Complete button
+        const completeButton = document.createElement("button");
+        completeButton.classList.add("complete");
+        completeButton.textContent = "Complete";
+        divInsideLi.append(completeButton);
+
+        itemAppender.append(newItem);
+
+        itemCounter++;
+        totalItems.textContent = `Total Items: ${itemCounter}`;
+        input.value = "";
+        input.focus();
+
+        function promptForNewValue() {
+          const newValue = prompt("Enter New Item Name:", textSpan.textContent);
+          if (newValue !== null && newValue.trim() !== "") {
+            textSpan.textContent = newValue.trim();
+          } else if (newValue === null) {
+            return;
+          } else {
+            alert("Invalid Input. Item Name Cannot Be Empty.");
+            promptForNewValue();
+          }
+        }
+
+        editButton.addEventListener("click", function () {
+          promptForNewValue();
+        });
+
+        deleteButton.addEventListener("click", function () {
+          if (confirm("Are You Sure You Want To Delete This Item?")) {
+            newItem.remove();
+            itemCounter--;
+            totalItems.textContent = `Total Items: ${itemCounter}`;
+          }
+        });
+
+        completeButton.addEventListener("click", function () {
+          const isCompleted = completeButton.classList.toggle("completed");
+          newItem.classList.toggle("completed-item", isCompleted);
+          completeButton.textContent = isCompleted ? "✓ Completed" : "Complete";
+        });
+      }
+
+      addButton.addEventListener("click", addItem);
+
+      // Allow pressing "Enter" to add an item
+      input.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          addItem();
+        }
+      });
+    </script>
+  </body>
+</html>
